@@ -20,6 +20,8 @@ jobs:
             scripts/**.py        
 
       - name: List all changed files
+        env:
+          mod_files: join( steps.changed-files.outputs.all_changed_files, ',' )
         if: steps.changed-files.outputs.all_changed_files != '[]'
         run: |
-          echo "$join( steps.changed-files.outputs.all_changed_files, ',' )"
+          echo "$mod_files"
