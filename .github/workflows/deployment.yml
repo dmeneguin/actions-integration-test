@@ -20,8 +20,6 @@ jobs:
             scripts/**.py        
 
       - name: List all changed files
-        if: needs.changes.outputs.packages != '[]'
+        if: steps.changed-files.outputs.all_changed_files != '[]'
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
+          echo "$join( steps.changed-files.outputs.all_changed_files, ',' )"
