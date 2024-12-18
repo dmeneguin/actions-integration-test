@@ -22,6 +22,6 @@ jobs:
       - name: List all changed files
         env:
           mod_files: ${{ steps.changed-files.outputs.all_changed_files }}
-        if: ${{ mod_files }} != '[]'
+        if: ${{ steps.changed-files.outputs.all_changed_files }} != '[]'
         run: |
           echo "$mod_files"
