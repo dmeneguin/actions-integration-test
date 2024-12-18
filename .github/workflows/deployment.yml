@@ -24,4 +24,5 @@ jobs:
           mod_files: ${{ steps.changed-files.outputs.all_changed_files }}
         if: ${{ steps.changed-files.outputs.all_changed_files }} != '[]'
         run: |
-          echo "$mod_files"
+          concat_names="${mod_files// /,}"
+          echo "$concat_names"
