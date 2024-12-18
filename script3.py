@@ -1,5 +1,5 @@
 def main():
-    print('executado script1 :)')
+    print('executado script3 :)))')
 
 if __name__ == '__main__':
     main()
