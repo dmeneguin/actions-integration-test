@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: "Checkout app"
         uses: actions/checkout@v4
-        with:
-          path: ./app
 
       - name: Check if Prisma schema changed
         id: changed-files
