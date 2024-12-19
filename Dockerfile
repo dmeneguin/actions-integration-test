@@ -9,4 +9,3 @@ COPY . .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-#CMD ["/bin/bash", "-c", "python script1.py;python script2.py;python script3.py"]
