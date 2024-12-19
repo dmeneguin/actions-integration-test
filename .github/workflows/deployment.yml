@@ -25,4 +25,4 @@ jobs:
           mod_files: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           concat_names="${mod_files// /;python }"
-          echo "CMD [\"/bin/bash\", \"-c\", \"python $concat_names\"]
+          echo "CMD [\"/bin/bash\", \"-c\", \"python $concat_names\"]"
