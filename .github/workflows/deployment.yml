@@ -20,9 +20,9 @@ jobs:
             scripts/**.py        
 
       - name: List all changed files
+        if: ${{ steps.changed-files.outputs.all_changed_files }}
         env:
           mod_files: ${{ steps.changed-files.outputs.all_changed_files }}
-        if: ${{ steps.changed-files.outputs.all_changed_files }} != ''
         run: |
           echo ${{ steps.changed-files.outputs.all_changed_files }}
           concat_names="${mod_files// /,}"
