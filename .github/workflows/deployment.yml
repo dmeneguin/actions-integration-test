@@ -24,6 +24,5 @@ jobs:
         env:
           mod_files: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          echo ${{ steps.changed-files.outputs.all_changed_files }}
-          concat_names="${mod_files// /,}"
-          echo "$concat_names"
+          concat_names="${mod_files// /;python }"
+          echo "python $concat_names"
