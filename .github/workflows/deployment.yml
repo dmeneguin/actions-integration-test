@@ -62,7 +62,7 @@ jobs:
         with:
           repository: dmeneguin/actions-test-job-deployment
           ref: 'master'
-          ssh-key:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          token:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
 
       - name: Update values.yaml
         if: ${{ steps.changed-files.outputs.all_changed_files }}
