@@ -56,20 +56,25 @@ jobs:
           tags: dmeneguin/actions-test:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - uses: actions/checkout@v4
+      - name: checkout external repo
+        if: ${{ steps.changed-files.outputs.all_changed_files }}
+        uses: actions/checkout@v4
         with:
           repository: dmeneguin/actions-test-job-deployment
           ref: 'master'
           token:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
 
       - name: Update values.yaml
+        if: ${{ steps.changed-files.outputs.all_changed_files }}
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'job.yaml'
           propertyPath: 'spec.template.containers[0].image'
           value: dmeneguin/actions-test:${{ github.sha }}
-      - name: setup git config
+
+      - name: setup git config and push
+        if: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-      - run: git push origin master
+          git push origin master
