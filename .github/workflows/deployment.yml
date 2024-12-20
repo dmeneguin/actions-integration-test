@@ -42,6 +42,10 @@ jobs:
         with:
           images: dmeneguin/actions-test
 
+      - name: echo meta outputs
+        run: |
+          echo "${{ steps.meta.outputs.tags }}"
+
       - name: Build and push
         if: ${{ steps.changed-files.outputs.all_changed_files }}
         uses: docker/build-push-action@v5
@@ -49,5 +53,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: teste
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
