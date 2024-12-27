@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      ismodified: ${{ steps.build.outputs.changed }}
+      ismodified: ${{ steps.listfiles.outputs.changed }}
     steps:
       - name: "Checkout app"
         uses: actions/checkout@v4
@@ -22,6 +22,7 @@ jobs:
             scripts/**.py        
 
       - name: List all changed files
+        id: listfiles
         if: ${{ steps.changed-files.outputs.all_changed_files }}
         env:
           mod_files: ${{ steps.changed-files.outputs.all_changed_files }}
