@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.build.outputs.changed-files }}
+      output1: ${{ steps.build.outputs.ismodified }}
     steps:
       - name: "Checkout app"
         uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
         run: |
           concat_names="${mod_files// /;python }"
           echo "CMD [\"/bin/bash\", \"-c\", \"python $concat_names\"]" >> Dockerfile
-          echo "${{ steps.changed-files.outputs.all_changed_files }}" >> "$GITHUB_OUTPUT"
+          echo "ismodified=true" >> "$GITHUB_OUTPUT"
 
       - name: Login to Docker Hub
         if: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -63,7 +63,7 @@ jobs:
     needs: build
     steps:
       - name: checkout external repo
-        if: ${{ needs.build.outputs.changed-files }}
+        if: ${{ needs.build.outputs.ismodified }}
         uses: actions/checkout@v4
         with:
           repository: dmeneguin/actions-test-job-deployment
@@ -71,7 +71,7 @@ jobs:
           token: ${{ secrets.ACTIONS_PAT }}
 
       - name: kustomization
-        if: ${{ needs.build.outputs.changed-files }}
+        if: ${{ needs.build.outputs.ismodified }}
         uses: williamhogman/kustomize-set-image-hook@v1.5
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: "true"
