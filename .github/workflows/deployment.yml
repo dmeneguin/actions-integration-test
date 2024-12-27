@@ -28,7 +28,7 @@ jobs:
         run: |
           concat_names="${mod_files// /;python }"
           echo "CMD [\"/bin/bash\", \"-c\", \"python $concat_names\"]" >> Dockerfile
-          ${{ steps.changed-files.outputs.all_changed_files }} >> "$GITHUB_OUTPUT"
+          echo "${{ steps.changed-files.outputs.all_changed_files }}" >> "$GITHUB_OUTPUT"
 
       - name: Login to Docker Hub
         if: ${{ steps.changed-files.outputs.all_changed_files }}
