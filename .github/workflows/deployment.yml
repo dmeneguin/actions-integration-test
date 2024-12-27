@@ -62,11 +62,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - env:
-          CHANGED_FILES: ${{needs.build.outputs.changed-files}}
-
       - name: checkout external repo
-        if: ${{ CHANGED_FILES }}
+        if: ${{ needs.build.outputs.changed-files }}
         uses: actions/checkout@v4
         with:
           repository: dmeneguin/actions-test-job-deployment
@@ -74,7 +71,7 @@ jobs:
           token: ${{ secrets.ACTIONS_PAT }}
 
       - name: kustomization
-        if: ${{ CHANGED_FILES }}
+        if: ${{ needs.build.outputs.changed-files }}
         uses: williamhogman/kustomize-set-image-hook@v1.5
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: "true"
