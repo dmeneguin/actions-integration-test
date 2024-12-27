@@ -56,6 +56,9 @@ jobs:
           tags: dmeneguin/actions-test:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
 
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - name: checkout external repo
         if: ${{ steps.changed-files.outputs.all_changed_files }}
         uses: actions/checkout@v4
@@ -64,19 +67,31 @@ jobs:
           ref: 'master'
           token: ${{ secrets.ACTIONS_PAT }}
 
-      - name: Update values.yaml
+      - name: kustomization
         if: ${{ steps.changed-files.outputs.all_changed_files }}
-        uses: fjogeleit/yaml-update-action@main
+        uses: williamhogman/kustomize-set-image-hook@v1.5
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: "true"
         with:
-          valueFile: 'job.yaml'
-          propertyPath: 'spec.template.containers[0].image'
-          value: dmeneguin/actions-test:${{ github.sha }}
-          branch: master/${{ github.sha }}
-          targetBranch: master
-          createPR: true
-          message: 'Update Image Version to ${{ github.sha }}'
-          token: ${{ secrets.ACTIONS_PAT }}
-          repository: dmeneguin/actions-test-job-deployment
+          workingDirectory: .
+          kustomizePath: .
+          name: dmeneguin/actions-test
+          newTag: ${{ github.sha }}
+          newName: dmeneguin/actions-test
+
+      # - name: Update values.yaml
+      #   if: ${{ steps.changed-files.outputs.all_changed_files }}
+      #   uses: fjogeleit/yaml-update-action@main
+      #   with:
+      #     valueFile: 'job.yaml'
+      #     propertyPath: 'spec.template.containers[0].image'
+      #     value: dmeneguin/actions-test:${{ github.sha }}
+      #     branch: master/${{ github.sha }}
+      #     targetBranch: master
+      #     createPR: true
+      #     message: 'Update Image Version to ${{ github.sha }}'
+      #     token: ${{ secrets.ACTIONS_PAT }}
+      #     repository: dmeneguin/actions-test-job-deployment
       
       # - name: setup git config and push
       #   if: ${{ steps.changed-files.outputs.all_changed_files }}
