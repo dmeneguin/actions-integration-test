@@ -58,6 +58,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: checkout external repo
         if: ${{ steps.changed-files.outputs.all_changed_files }}
