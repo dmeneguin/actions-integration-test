@@ -71,6 +71,7 @@ jobs:
           valueFile: 'job.yaml'
           propertyPath: 'spec.template.containers[0].image'
           value: dmeneguin/actions-test:${{ github.sha }}
+          commitChange: false
 
       - name: setup git config and push
         if: ${{ steps.changed-files.outputs.all_changed_files }}
