@@ -82,7 +82,7 @@ jobs:
           repository: dmeneguin/actions-test-job-deployment
           token: ${{ secrets.ACTIONS_PAT }}
           valueFile: 'kustomization.yaml'
-          branch: deployment/dev
+          branch: dev
           targetBranch: main
           createPR: 'true'
           description: Test GitHub Action
