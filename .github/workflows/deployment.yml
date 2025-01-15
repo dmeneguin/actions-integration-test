@@ -77,18 +77,33 @@ jobs:
 
       - name: kustomization
         if: ${{ needs.build.outputs.ismodified }}
-        uses: fjogeleit/yaml-update-action@main
+        uses: williamhogman/kustomize-set-image-hook@v1.5
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: "true"
         with:
-          repository: dmeneguin/actions-test-job-deployment
-          token: ${{ secrets.ACTIONS_PAT }}
-          valueFile: 'kustomization.yaml'
-          branch: dev
-          targetBranch: master
-          createPR: true
-          description: Test GitHub Action
-          message: 'Update All Images' 
-          title: 'Version Updates '
-          changes: |
-            {
-              "images[0].newTag": "${{ github.sha }}"
-            }
+          workingDirectory: .
+          kustomizePath: .
+          name: dmeneguin/actions-test
+          newTag: ${{ github.sha }}
+          newName: dmeneguin/actions-test
+
+      # - name: Update values.yaml
+      #   if: ${{ steps.changed-files.outputs.all_changed_files }}
+      #   uses: fjogeleit/yaml-update-action@main
+      #   with:
+      #     valueFile: 'job.yaml'
+      #     propertyPath: 'spec.template.containers[0].image'
+      #     value: dmeneguin/actions-test:${{ github.sha }}
+      #     branch: master/${{ github.sha }}
+      #     targetBranch: master
+      #     createPR: true
+      #     message: 'Update Image Version to ${{ github.sha }}'
+      #     token: ${{ secrets.ACTIONS_PAT }}
+      #     repository: dmeneguin/actions-test-job-deployment
+      
+      # - name: setup git config and push
+      #   if: ${{ steps.changed-files.outputs.all_changed_files }}
+      #   run: |
+      #     git config user.name "GitHub Actions Bot"
+      #     git config user.email "<>"
+      #     git push origin master
