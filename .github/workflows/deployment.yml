@@ -83,8 +83,8 @@ jobs:
           token: ${{ secrets.ACTIONS_PAT }}
           valueFile: 'kustomization.yaml'
           branch: dev
-          targetBranch: main
-          createPR: 'true'
+          targetBranch: master
+          createPR: true
           description: Test GitHub Action
           message: 'Update All Images' 
           title: 'Version Updates '
